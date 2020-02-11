@@ -24,7 +24,7 @@ class Employee(object):
             "hours": None,
             "date_of_employment": None
         }
-        self.abstences = []
+        self.absences = []
 
     def set_name(self, first, middle, last):
         self.name['last'] = first
@@ -46,8 +46,8 @@ class Employee(object):
         self.position['hours'] = hours
         self.position['date_of_employment'] = doe
         
-    def add_abstences(self, init_date, end_date, type):
-         self.abstences.append(  # Lista de faltas, pode ser vazio
+    def add_absences(self, init_date, end_date, type):
+         self.absences.append(  # Lista de faltas, pode ser vazio
             {
                     "period":
                     {
@@ -59,7 +59,8 @@ class Employee(object):
         )
 
     def to_dict(self):
-        return {
+        #ab = 
+        ret_dict = {
             "employee_number": self.employee_number,
             "name":{
                 "last": self.name['last'],
@@ -67,7 +68,7 @@ class Employee(object):
                 "middle": self.name['middle']
             },
             "telephone": self.telephone,
-            "address:": {
+            "address": {
                 "description": self.address['description'],
                 "city": self.address['city'],
                 "state": self.address['state'],
@@ -79,5 +80,13 @@ class Employee(object):
                 "hours": self.position['hours'],
                 "date_of_employment": self.position['date_of_employment'] #TODO Formatar data "2019-02-06"
             },
-            #TODO Abstences
+            "absences": [
+                
+            ]
+            #TODO absences
         }
+        for ab in self.absences:
+            ret_dict["absences"].append(ab)
+
+        return ret_dict
+    

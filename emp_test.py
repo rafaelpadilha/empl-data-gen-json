@@ -27,13 +27,17 @@ def random_with_N_digits(n):
     range_end = (10**n)-1
     return randint(range_start, range_end)
 
+def date_str(date):
+    return str(date.year) + '-' + str(date.month).zfill(2) + '-' + str(date.day).zfill(2)
+
 def random_date(start, end):
     start = datetime.datetime.strptime(start, '%Y-%m-%d')
     end = datetime.datetime.strptime(end, '%Y-%m-%d')
     diff = end - start
     int_diff = (diff.days * 24 * 60 * 60) + diff.seconds
     random_second = randrange(int_diff)
-    return str(start + datetime.timedelta(seconds=random_second))
+    date = start + datetime.timedelta(seconds=random_second)
+    return date_str(date)
 
 def fake_employee_number(list_empl):
     if(len(list_empl) > 0):
@@ -52,7 +56,6 @@ def fake_telephone():
 
 def fake_salary():
     return round(uniform(30.0, 90.0),2)
-    pass
     
 def fake_position():
     title = positions[randrange(len(positions))]
@@ -69,7 +72,7 @@ def fake_position():
         hour = 40
 
     #dt_of_empl = str(randrange(2005,2019))+ '-' + str(randrange(1,12)).zfill(2) + '-' + str(randrange(1,28)).zfill(2)
-    dt_of_empl = str(random_date('2005-01-01','2019-12-31'))
+    dt_of_empl = random_date('2005-01-01','2019-12-31')
     
     return title, hour, dt_of_empl
 
@@ -80,8 +83,17 @@ def fake_address():
     zip = "7" + str(random_with_N_digits(4)) + "-" + str(random_with_N_digits(3))
     return desc, city, state, zip
 
-#def fake_absences(date_of_empl):
-
+def fake_absences(date_of_empl):
+    init_date = random_date(date_of_empl, date_str(datetime.date.today()))
+    init_date = datetime.datetime.strptime(init_date, '%Y-%m-%d')
+    if(randrange(1) == 0):
+        # 30 dias
+        end_date = init_date + datetime.timedelta(days=30)
+    else:
+        # 15 dias
+        end_date = init_date + datetime.timedelta(days=15)
+    return date_str(init_date), date_str(end_date) 
+    
 empl_list = []
 
 for i in range(AMOUNT):
@@ -98,6 +110,10 @@ for i in range(AMOUNT):
     pos_title, pos_hours, pos_dt = fake_position()
     pos_salary = fake_salary()
     empl.set_position(pos_title, pos_salary, pos_hours, pos_dt)
+
+    for i in range(randrange(3)):
+        ab_init, ab_end = fake_absences(empl.position['date_of_employment'])
+        empl.add_absences(ab_init, ab_end, "vacation")
 
     empl_list.append(empl)
 
