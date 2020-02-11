@@ -1,53 +1,30 @@
 class Employee(object):
 
 
-    employee_number = None
-    name = {
-    "last": None,
-    "first": None,
-    "middle": None
-    }
-    telephone = None
-    address = {
-    "description": None,  # Endereço
-    "city": None,
-    "state": None,
-    "zip": None
-    }
-    position = {
-    "title": None,
-    "salary": None,  # Na media de 30 a 90
-    "hours": None,
-    "date_of_employment": None
-    }
-    abstences = []
+    #employee_number = None
+    
 
     def __init__(self , id):
         self.employee_number = id # Não pode repetir
-        #self.name['last'] = "Smith"
-        #self.name['first'] = "Peter"
-        #self.name['middle'] = "Robert"
-        #self.telephone = "61 9" + str(random_with_N_digits(4)) + '-' + str(random_with_N_digits(4))  # 61 9XXXX-XXXX
-        #self.address['description'] = "SQS 404, Bl. A, Apt 108"
-        #self.address['city'] = "Brasilia"
-        #self.address['state'] = "DF"
-        #self.address['zip'] = "70357-100"
-        #self.position['title'] = "Software Engineer"
-        #self.position['salary'] = 73.00 # 30 ~ 90
-        #self.position['hours'] = 30
-        #self.position['date_of_employment'] = "2019-02-06"
-        """
-        self.abstences.append(  # Lista de faltas, pode ser vazio
-            {
-                    "period":
-                    {
-                    "initial_date": "2019-07-12",
-                    "end_date": "2019-07-19"
-                    },
-                    "type": "vacation"
-            }
-        )
-        """
+        self.name = {
+            "last": None,
+            "first": None,
+            "middle": None
+        }
+        self.telephone = None
+        self.address = {
+            "description": None,  # Endereço
+            "city": None,
+            "state": None,
+            "zip": None
+        }
+        self.position = {
+            "title": None,
+            "salary": None,  # Na media de 30 a 90
+            "hours": None,
+            "date_of_employment": None
+        }
+        self.abstences = []
 
     def set_name(self, first, middle, last):
         self.name['last'] = first
@@ -80,3 +57,27 @@ class Employee(object):
                     "type": type
             }
         )
+
+    def to_dict(self):
+        return {
+            "employee_number": self.employee_number,
+            "name":{
+                "last": self.name['last'],
+                "first": self.name['first'],
+                "middle": self.name['middle']
+            },
+            "telephone": self.telephone,
+            "address:": {
+                "description": self.address['description'],
+                "city": self.address['city'],
+                "state": self.address['state'],
+                "zip": self.address['zip']
+            },
+            "position": {
+                "title": self.position['title'],
+                "salary": self.position['salary'],
+                "hours": self.position['hours'],
+                "date_of_employment": self.position['date_of_employment'] #TODO Formatar data "2019-02-06"
+            },
+            #TODO Abstences
+        }
